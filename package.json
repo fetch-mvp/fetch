@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/fetch-mvp/fetch/issues"
   },
-  "homepage": "https://github.com/fetch-mvp/fetch#readme"
+  "homepage": "https://github.com/fetch-mvp/fetch#readme",
+  "dependencies": {
+    "mongodb": "^3.2.7"
+  }
 }
