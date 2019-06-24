@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/fetch-mvp/fetch#readme",
   "dependencies": {
+    "faker": "^4.1.0",
     "mongodb": "^3.2.7"
   }
 }
