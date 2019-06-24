@@ -37,12 +37,11 @@ const data = (num) => {
       description: `I'm just a small town dog that needs some new friends`,
       location: location[randomIndex(4)]
     }
-    console.log(user)
     arr.push(user)
     user = {}
   }
   return arr
 }
-console.log(data(3))
+
 module.exports = data;
 
