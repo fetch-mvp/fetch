@@ -1,11 +1,13 @@
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017';
 
-MongoClient.connect(url, { useNewUrlParser: true }, (err, database) => {
+
+MongoClient.connect(url, {useNewUrlParser:true}, (err, database) => {
   if (err) {
     console.log(`there's an error: ${err}`);
   } else {
-    console.log('mongo connection made');
+    console.log('mongo connection made')
+
     dbo = database.db('fetch').collection('userInfos');
   }
 });
@@ -59,7 +61,11 @@ const createUser = (req, res) => {
   );
 };
 
+
 module.exports = {
   getUserInfo,
   createUser
+
 };
+
+
