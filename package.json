@@ -18,15 +18,12 @@
   },
   "homepage": "https://github.com/fetch-mvp/fetch#readme",
   "dependencies": {
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     "faker": "^4.1.0",
-=======
->>>>>>> created database and crud ops
-=======
+
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
->>>>>>> 54cd1d95e5b76a5745a3b41a15ad9ac905f58029
+
     "mongodb": "^3.2.7"
   }
 }
