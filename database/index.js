@@ -11,17 +11,17 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, database) => {
     dbo = database.db('fetch').collection('userInfos');
     dbo.insertMany(data(10), (err, result) => {
       if (err) {
-        console.log(err)
+        console.log(err);
       } else {
-        console.log('inserted successfully')
+        console.log('inserted successfully');
       }
-    })
+    });
   }
 });
 
 const getUserInfo = (req, res) => {
   let { username, password } = req.body;
-  dbo.findOne({username, password }, (err, data) => {
+  dbo.findOne({ username, password }, (err, data) => {
     if (err) {
       res.status(404).send(err);
     } else {
@@ -31,18 +31,44 @@ const getUserInfo = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  let { username, password, email, preferences, matches, images, animalgender, animalbreed, description, location } = req.body;
-  dbo.insert({ username, password, email, preferences, matches, images, animalgender, animalbreed, description, location }, (err, data) => {
-    if (err) {
-      res.status(404).send('unable to create profile')
-    } else {
-      res.status(200).send('profile created')
+  let {
+    username,
+    password,
+    email,
+    preferences,
+    matches,
+    images,
+    animalgender,
+    animalbreed,
+    description,
+    location
+  } = req.body;
+  dbo.insert(
+    {
+      username,
+      password,
+      email,
+      preferences,
+      matches,
+      images,
+      animalgender,
+      animalbreed,
+      description,
+      location
+    },
+    (err, data) => {
+      if (err) {
+        res.status(404).send('unable to create profile');
+      } else {
+        res.status(200).send('profile created');
+      }
     }
-  })
+  );
 };
 
 const updateUser = (req, res) => {
   let {
+    _id,
     username,
     password,
     email,
@@ -56,32 +82,31 @@ const updateUser = (req, res) => {
     location
   } = req.body;
 
-  dbo.findOne({ username }, (err, data) => {
+  // dbo.findOne({ username }, (err, data) => {
+  //   if (err) {
+  //     res.status(404).send(err);
+  //   } else {
+  //     let { _id } = data;
+  //     dbo.findOneAndUpdate(_id, { images, description }, (err, info) => {
+  //       if (err) {
+  //         res.status(404).send(err);
+  //       } else {
+  //         res.status(200).send(info);
+  //       }
+  //     });
+  //   }
+  // });
+  dbo.findOneAndUpdate(_id, { images, description }, (err, info) => {
     if (err) {
       res.status(404).send(err);
     } else {
-      dbo.findOneAndUpdate(
-        { username },
-        { images, description },
-        (err, info) => {
-          if (err) {
-            res.status(404).send(err);
-          } else {
-            res.status(200).send(info);
-          }
-        }
-      );
+      res.status(200).send(info);
     }
+  });
+};
 
-  })
-}
-
-
-
-
-
-  module.exports = {
-    getUserInfo,
-    createUser,
-    updateUser
-  };
+module.exports = {
+  getUserInfo,
+  createUser,
+  updateUser
+};
