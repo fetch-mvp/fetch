@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/fetch-mvp/fetch#readme",
   "dependencies": {
+<<<<<<< HEAD
     "faker": "^4.1.0",
+=======
+>>>>>>> created database and crud ops
     "mongodb": "^3.2.7"
   }
 }
