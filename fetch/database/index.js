@@ -56,24 +56,16 @@ const updateUser = (req, res) => {
     location
   } = req.body;
 
-  dbo.findOne({ username }, (err, data) => {
+  let {id} = req.params;
+  dbo.findOneAndUpdate({ id }, { images, description },(err, info) => {
+    console.log('work')
     if (err) {
       res.status(404).send(err);
     } else {
-      dbo.findOneAndUpdate(
-        { username },
-        { images, description },
-        (err, info) => {
-          if (err) {
-            res.status(404).send(err);
-          } else {
-            res.status(200).send(info);
-          }
-        }
-      );
+      console.log('hi')
+      res.status(200).send('profile updated');
     }
-
-  })
+  });
 }
 
 
