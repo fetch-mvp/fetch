@@ -2,6 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017';
 const data = require('./seed.js');
 let dbo;
+const ObjectID = require('mongodb').ObjectID;
 
 MongoClient.connect(url, { useNewUrlParser: true }, (err, database) => {
   if (err) {
@@ -28,6 +29,23 @@ const getUserInfo = (req, res) => {
       res.status(200).send(data);
     }
   });
+};
+
+const getUserInfoID = (req, res) => {
+  // let { id } = req.params;
+  // console.log(id);
+  dbo.find({}, (err, data) => {
+    console.log(data);
+    if (err) console.error(err);
+    else res.status(200);
+  });
+  // dbo.find({ where: { id: req.params.id } }.toArray, (err, data) => {
+  //   if (err) {
+  //     res.status(404).send(err);
+  //   } else {
+  //     res.sendStatus(200).send(data);
+  //   }
+  // });
 };
 
 const createUser = (req, res) => {
@@ -68,7 +86,6 @@ const createUser = (req, res) => {
 
 const updateUser = (req, res) => {
   let {
-    _id,
     username,
     password,
     email,
@@ -81,32 +98,30 @@ const updateUser = (req, res) => {
     description,
     location
   } = req.body;
+  let { _id } = req.params;
 
-  // dbo.findOne({ username }, (err, data) => {
-  //   if (err) {
-  //     res.status(404).send(err);
-  //   } else {
-  //     let { _id } = data;
-  //     dbo.findOneAndUpdate(_id, { images, description }, (err, info) => {
-  //       if (err) {
-  //         res.status(404).send(err);
-  //       } else {
-  //         res.status(200).send(info);
-  //       }
-  //     });
-  //   }
-  // });
-  dbo.findOneAndUpdate(_id, { images, description }, (err, info) => {
-    if (err) {
-      res.status(404).send(err);
-    } else {
-      res.status(200).send(info);
+  console.log(req.params);
+
+  dbo.updateOne(
+    { _id: new ObjectID(_id) },
+    { $set: { images, description } },
+    (err, data) => {
+      if (err) {
+        res.status(404).send(err);
+      } else {
+        console.log('testing inasdflasdkjf');
+        // console.log(info);
+        dbo.findOne({ _id: new ObjectID(_id) }, (err, info) => {
+          res.status(200).send(info);
+        });
+      }
     }
-  });
+  );
 };
 
 module.exports = {
   getUserInfo,
   createUser,
-  updateUser
+  updateUser,
+  getUserInfoID
 };
