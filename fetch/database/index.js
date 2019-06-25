@@ -118,6 +118,5 @@ const updateUser = (req, res) => {
 module.exports = {
   getUserInfo,
   createUser,
-  updateUser,
-  getUserInfoID
+  updateUser
 };
