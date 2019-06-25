@@ -109,8 +109,6 @@ const updateUser = (req, res) => {
       if (err) {
         res.status(404).send(err);
       } else {
-        console.log('testing inasdflasdkjf');
-        // console.log(info);
         dbo.findOne({ _id: new ObjectID(_id) }, (err, info) => {
           res.status(200).send(info);
         });
