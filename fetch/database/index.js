@@ -100,23 +100,24 @@ const updateUser = (req, res) => {
   } = req.body;
   let { _id } = req.params;
 
-  dbo.updateOne(
-    { _id: new ObjectID(_id) },
-    { $set: { images, description } },
-    (err, data) => {
-      if (err) {
-        res.status(404).send(err);
-      } else {
-        dbo.findOne({ _id: new ObjectID(_id) }, (err, info) => {
-          res.status(200).send(info);
-        });
-      }
+  let {id} = req.params;
+  dbo.findOneAndUpdate({ id }, { images, description },(err, info) => {
+    console.log('work')
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      console.log('hi')
+      res.status(200).send('profile updated');
     }
-  );
-};
+  });
+}
 
-module.exports = {
-  getUserInfo,
-  createUser,
-  updateUser
-};
+
+
+
+
+  module.exports = {
+    getUserInfo,
+    createUser,
+    updateUser
+  };
