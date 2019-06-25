@@ -20,6 +20,16 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, database) => {
   }
 });
 
+const getAll = (req, res) => {
+  dbo.find({}, (err, data) => {
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(data);
+    }
+  });
+};
+
 const getUserInfo = (req, res) => {
   let { username, password } = req.body;
   dbo.findOne({ username, password }, (err, data) => {
@@ -32,20 +42,14 @@ const getUserInfo = (req, res) => {
 };
 
 const getUserInfoID = (req, res) => {
-  // let { id } = req.params;
-  // console.log(id);
-  dbo.find({}, (err, data) => {
-    console.log(data);
-    if (err) console.error(err);
-    else res.status(200);
+  let { _id } = req.params;
+  dbo.findOne({ _id }, (err, data) => {
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(data);
+    }
   });
-  // dbo.find({ where: { id: req.params.id } }.toArray, (err, data) => {
-  //   if (err) {
-  //     res.status(404).send(err);
-  //   } else {
-  //     res.sendStatus(200).send(data);
-  //   }
-  // });
 };
 
 const createUser = (req, res) => {
@@ -100,24 +104,25 @@ const updateUser = (req, res) => {
   } = req.body;
   let { _id } = req.params;
 
-  let {id} = req.params;
-  dbo.findOneAndUpdate({ id }, { images, description },(err, info) => {
-    console.log('work')
-    if (err) {
-      res.status(404).send(err);
-    } else {
-      console.log('hi')
-      res.status(200).send('profile updated');
+  dbo.updateOne(
+    { _id: new ObjectID(_id) },
+    { $set: { images, description } },
+    (err, data) => {
+      if (err) {
+        res.status(404).send(err);
+      } else {
+        dbo.findOne({ _id: new ObjectID(_id) }, (err, info) => {
+          res.status(200).send(info);
+        });
+      }
     }
-  });
-}
+  );
+};
 
-
-
-
-
-  module.exports = {
-    getUserInfo,
-    createUser,
-    updateUser
-  };
+module.exports = {
+  getUserInfo,
+  createUser,
+  updateUser,
+  getUserInfoID,
+  getAll
+};
