@@ -100,8 +100,6 @@ const updateUser = (req, res) => {
   } = req.body;
   let { _id } = req.params;
 
-  console.log(req.params);
-
   dbo.updateOne(
     { _id: new ObjectID(_id) },
     { $set: { images, description } },
